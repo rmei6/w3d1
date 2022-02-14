@@ -1,3 +1,4 @@
+require "byebug"
 class Array 
     def my_each(&prc)
         i = 0
@@ -29,11 +30,22 @@ class Array
     end
     
     def my_flatten
-        return [] if self.length < 1
-        return self if self.length == 1 && !self[0].is_a?(Array)
-        return self[0].my_flatten + self[1..-1].my_flatten
+        #return [] if self.length < 1
+        #return self if self.length == 1 && !self[0].is_a?(Array)
+        #return self[0].my_flatten + self[1..-1].my_flatten
+        return self.helper([])
     end
 
-    [1, 2, 3, [4, [5, 6]], [[[7]], 8]].my_flatten
+    def helper(array)
+        #debugger
+        if !self[0].is_a?(Array)
+            array << self
+            return array
+        else
+            self.each {|element| element.helper(array)}
+        end
+    end
+
+    p [1, 2, 3, [4, [5, 6]], [[[7]], 8]].my_flatten
 
 end
