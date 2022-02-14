@@ -43,33 +43,49 @@ class Array
 
     def my_zip(*args)
         result = Array.new(self.length){Array.new(0)}
-        # i = 0
-        # while i < self.length
-        #     j = 0
-        #     while j < args.length + 1
-        #         if self[i] != nil
-        #             result[i][j] = self[i]
-        #         end
-        #         j += 1
-        #         args.each do |subarray|
-        #             if subarray[i] != nil
-        #                 result[i][j] = subarray[i]
-        #             end
-        #         end
-        #         j += 1
-        #     end
-        #     i += 1
-        # end
-        result
+        self.each.with_index {|ele, i| result[i] << ele}
+        args.each do |subarr|
+            subarr.each.with_index {|ele, i| result[i] << ele if i < self.length}
+        end
+        result.each do |subarr|
+            while subarr.length < self.length
+                subarr << nil
+            end
+        end
+        return result
     end
+
+    def my_rotate(num=1)
+        arr = self.map {|ele| ele}
+        return self if num == 0
+        if num > 0
+            num.times do arr.push(arr.shift())
+            end
+        else
+            (-num).times do arr.unshift(arr.pop())
+            end
+        end 
+        return arr
+    end
+
+    def my_join(str="")
+        new_str = ""
+        (0...self.length-1).each do |i|
+            new_str+=self[i]+str
+        end
+        new_str+=self[-1]
+        return new_str
+    end
+
+    def my_reverse
+        arr = []
+        self.each {|ele| arr.unshift(ele)}
+        return arr
+    end
+
+
 end
+p [ "a", "b", "c" ].my_reverse   #=> ["c", "b", "a"]
+p [ 1 ].my_reverse               #=> [1]
 
-a = [ 4, 5, 6 ]
-b = [ 7, 8, 9 ]
-p [1, 2, 3].my_zip(a, b) # => [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
-p a.my_zip([1,2], [8])   # => [[4, 1, 8], [5, 2, nil], [6, nil, nil]]
-p [1, 2].my_zip(a, b)    # => [[1, 4, 7], [2, 5, 8]]
 
-c = [10, 11, 12]
-d = [13, 14, 15]
-p [1, 2].my_zip(a, b, c, d)    # => [[1, 4, 7, 10, 13], [2, 5, 8, 11, 14]]
