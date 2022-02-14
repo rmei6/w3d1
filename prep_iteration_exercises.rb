@@ -73,7 +73,6 @@ class Array
   end
 end
 
-p [1, 3, 5].bubble_sort! { |num1, num2| num1 <=> num2 }
 
 # ### Substrings and Subwords
 #
@@ -89,19 +88,32 @@ p [1, 3, 5].bubble_sort! { |num1, num2| num1 <=> num2 }
 # words).
 
 def substrings(string)
-  i = 0
-  while i < string.length
+  arr = []
+  (0...string.length).each do |i|
+    (i...string.length).each do |j|
+      arr << string[i..j]
+    end
+  end
+  return arr
 end
 
 def subwords(word, dictionary)
+  substrings = substrings(word)
+  substrings.select {|word| dictionary.include?(word)}
 end
+
+
+
 
 # ### Doubler
 # Write a `doubler` method that takes an array of integers and returns an
 # array with the original elements multiplied by two.
 
 def doubler(array)
+  array.map {|ele| ele*2}
 end
+
+
 
 # ### My Each
 # Extend the Array class to include a method named `my_each` that takes a
@@ -128,6 +140,12 @@ end
 
 class Array
   def my_each(&prc)
+    i = 0
+    while i < self.length
+        prc.call(self[i])
+        i+=1
+    end
+    return self
   end
 end
 
@@ -146,14 +164,26 @@ end
 
 class Array
   def my_map(&prc)
+    arr = []
+    self.each do |ele|
+      arr << prc.call(ele)
+    end
+    arr
   end
 
   def my_select(&prc)
+    arr = []
+    self.each {|ele| arr << ele if prc.call(ele) }
+    return arr
   end
 
   def my_inject(&blk)
+    acc = blk.call(self[0])
+    (1..self.length-1).each {|ele| acc+=blk.call(self[ele])}
+    return acc
   end
 end
+
 
 # ### Concatenate
 # Create a method that takes in an `Array` of `String`s and uses `inject`
@@ -165,4 +195,5 @@ end
 # ```
 
 def concatenate(strings)
+  return strings.inject(""){|acc,string| acc += string }
 end
