@@ -42,10 +42,34 @@ class Array
     end
 
     def my_zip(*args)
-        result = Array.new(self.length){Array.new(args.length+1)}
-        
+        result = Array.new(self.length){Array.new(0)}
+        # i = 0
+        # while i < self.length
+        #     j = 0
+        #     while j < args.length + 1
+        #         if self[i] != nil
+        #             result[i][j] = self[i]
+        #         end
+        #         j += 1
+        #         args.each do |subarray|
+        #             if subarray[i] != nil
+        #                 result[i][j] = subarray[i]
+        #             end
+        #         end
+        #         j += 1
+        #     end
+        #     i += 1
+        # end
+        result
     end
-
-    
-
 end
+
+a = [ 4, 5, 6 ]
+b = [ 7, 8, 9 ]
+p [1, 2, 3].my_zip(a, b) # => [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
+p a.my_zip([1,2], [8])   # => [[4, 1, 8], [5, 2, nil], [6, nil, nil]]
+p [1, 2].my_zip(a, b)    # => [[1, 4, 7], [2, 5, 8]]
+
+c = [10, 11, 12]
+d = [13, 14, 15]
+p [1, 2].my_zip(a, b, c, d)    # => [[1, 4, 7, 10, 13], [2, 5, 8, 11, 14]]
