@@ -30,22 +30,22 @@ class Array
     end
     
     def my_flatten
-        #return [] if self.length < 1
-        #return self if self.length == 1 && !self[0].is_a?(Array)
-        #return self[0].my_flatten + self[1..-1].my_flatten
-        return self.helper([])
-    end
-
-    def helper(array)
-        #debugger
-        if !self[0].is_a?(Array)
-            array << self
-            return array
-        else
-            self.each {|element| element.helper(array)}
+        arr = []
+        self.each do |ele|
+            if !ele.is_a?(Array)
+                arr += [ele]
+            else
+                arr += ele.my_flatten
+            end
         end
+        return arr
     end
 
-    p [1, 2, 3, [4, [5, 6]], [[[7]], 8]].my_flatten
+    def my_zip(*args)
+        result = Array.new(self.length){Array.new(args.length+1)}
+        
+    end
+
+    
 
 end
